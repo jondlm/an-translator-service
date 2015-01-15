@@ -1,8 +1,10 @@
 var n = require('nconf');
+var r = require('project-base');
 var path = require('path');
 
 var defaults = { // aka development
-  port: 8081
+  port: 8081,
+  dbPath: r+'mydb'
 };
 
 //

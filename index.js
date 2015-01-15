@@ -25,11 +25,16 @@ server.ext('onPreResponse', hooks.onPreResponse);
 //
 // Logging
 // -------------------------------------
-server.on('internalError', function(req, err) { logi('error', err); });
+server.on('internal-error', logError);
+server.on('internal-implementation-error', logError);
+server.on('request-error', logWarn);
 server.on('log', function(event, tags) {
   // logi that shiz
   logi(JSON.stringify(event.tags) + ' ' + event.data);
 });
+
+function logError(req, err) { logi('error', err); }
+function logWarn(req, err) { logi('warn', err); }
 
 //
 // Register packs
