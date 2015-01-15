@@ -67,4 +67,31 @@ module.exports.destroyAll = function(request, reply) {
     db = level(settings.dbPath); // re-create the database
     return reply({message: 'all database records deleted'});
   })
-}
+};
+
+module.exports.bulk = function(request, reply) {
+// Example:
+// [
+//   {"key": "login.username", "value":"Username:"},
+//   {"key": "login.password", "value":"Password:"},
+//   {"key": "help.ask_for_help", "value":"<a href=\"http://support.appnexus.com?customer_type=console\" target=\"_blank\">Support Form</a> Have a question? Contact our support team."},
+//   {"key": "help.view_tech_docs", "value":"<a href=\"https://wiki.appnexus.com/login.action\" target=\"_blank\">Technical Documentation</a> Browse the AppNexus knowledge base"},
+// ]
+
+  // Default to 'en', should be done with `joi` in the routes folder TODO
+  var ln = request.url.query.language_code || 'en';
+
+  var ops = request.payload.map(function(x) {
+    return {
+      type: 'put',
+      key: [ln, x.key].join('~'),
+      value: x.value
+    };
+  });
+
+  db.batch(ops, function(err) {
+    if (err) return reply(err);
+    return reply({message: ops.length + ' keys saved'});
+  });
+
+};

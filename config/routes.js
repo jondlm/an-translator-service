@@ -34,6 +34,15 @@ module.exports = [
   },
   {
     method: 'POST',
+    path: '/keys/bulk',
+    handler: keysController.bulk,
+    config: {
+      cors: true
+      // TODO: validate array
+    }
+  },
+  {
+    method: 'POST',
     path: '/keys/{key}',
     handler: keysController.create,
     config: {
