@@ -31,7 +31,6 @@ module.exports = [
       validate: {
         payload: {
           language_code: Joi.string().lowercase().required().default('en'),
-          region_code: Joi.string().lowercase().required().default('us'),
           value: Joi.string().required()
         }
       }
@@ -45,7 +44,6 @@ module.exports = [
       validate: {
         payload: {
           language_code: Joi.string().lowercase().required().default('en'),
-          region_code: Joi.string().lowercase().required().default('us')
         }
       }
     }
